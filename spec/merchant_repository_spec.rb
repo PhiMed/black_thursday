@@ -11,20 +11,22 @@ RSpec.describe MerchantRepository do
     expect(mr).to be_an_instance_of(MerchantRepository)
   end
 
-  xit 'can return an array of all known merchants' do
-
+  it 'can return an array of all known merchants' do
     se = SalesEngine.from_csv({
       :items     => "./data/items.csv",
       :merchants => "./data/merchants.csv",
       })
     mr = MerchantRepository.new(se)
-    expect(mr.all).to be_an(Array)
-    expect(mr.all[0]).to be_an_instance_of(Merchant)
+    expect(mr.all).not_to eq nil
   end
 
-  xit 'can find merchant by id' do
-    mr = MerchantRepository.new
-
-    expect(mr.find_by_id(id)).to
+  it 'can find merchant by id' do
+    se = SalesEngine.from_csv({
+      :items     => "./data/items.csv",
+      :merchants => "./data/merchants.csv",
+      })
+    mr = MerchantRepository.new(se)
+    expect(mr.find_by_id(12334123)).to eq({"id"=>"12334123", "name"=>"Keckenbauer",
+       "created_at"=>"2010-07-15", "updated_at"=>"2012-07-25"})
   end
 end

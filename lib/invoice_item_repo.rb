@@ -61,7 +61,7 @@ class InvoiceItemRepository
       new_high = last.id.to_i
       new_high += 1
       new_high.to_s
-      # require "pry"; binding.pry
+      require "pry"; binding.pry
   end
 
   def create(attributes)

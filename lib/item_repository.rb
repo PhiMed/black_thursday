@@ -73,7 +73,6 @@ class ItemRepository
         in_range << item
       end
     end
-
       in_range
   end
 
@@ -89,16 +88,27 @@ class ItemRepository
     end
   end
 
-
-  def create(attributes)
-    new_item = Item.new(attributes)
-    @all << new_item
+  def find_highest
+        max = 0
+    container = []
+    @all.each do |item|
+        container << item.id.to_i
+      end
+    container.each do |item|
+      if item > max
+        max = item
+      end
+    end
+    max
   end
 
-  def update(id, new_name)
-    if find_by_id(id) != nil
-      (find_by_id(id).name.clear.gsub!("", new_name))
-    end
+  def new_highest_id
+    find_highest + 1
+  end
+
+  def create
+    item_repo_new = ItemRepository.new(attributes)
+    @all << item_repo_new
   end
 
   def delete(id)

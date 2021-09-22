@@ -75,5 +75,6 @@ RSpec.describe ItemRepository do
     expect(item_repository.find_all_by_merchant_id(example_item.merchant_id).count).to eq(9)
     expect(item_repository.find_all_by_merchant_id(00000000)).to eq([])
   end
+end
 
   #Need to add back the test for remaining methods

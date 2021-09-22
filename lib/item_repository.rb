@@ -1,6 +1,4 @@
-require 'csv'
-require './lib/sales_engine'
-require './lib/item'
+require_relative './sales_engine'
 
 class ItemRepository
   attr_reader :all
@@ -12,6 +10,10 @@ class ItemRepository
         item_objects << Item.new(row)
       end
     item_objects)
+  end
+
+  def inspect
+    "#<#{self.class} #{@merchants.size} rows>"
   end
 
   def find_by_id(id)

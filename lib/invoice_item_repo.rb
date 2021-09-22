@@ -1,5 +1,5 @@
-require './lib/invoiceitem'
-require './lib/sales_engine'
+require_relative './invoiceitem'
+require_relative './sales_engine'
 require 'csv'
 require 'BigDecimal'
 
@@ -14,6 +14,10 @@ class InvoiceItemRepository
         invoice_items_objects << InvoiceItem.new(row)
       end
       invoice_items_objects)
+  end
+
+  def inspect
+    "#<#{self.class} #{@invoice_items.size} rows>"
   end
 
   def find_by_id(id)

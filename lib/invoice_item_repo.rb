@@ -70,30 +70,13 @@ class InvoiceItemRepository
   end
 end
 
+def update(id, attribute)
+  if find_by_id(id) != nil
+    find_by_id(id).status.clear.gsub!("", attribute[:quantity], attribute[:unit_price])
+    find_by_id(id).updated_at.clear.gsub!("", Time.now.to_s)
+  end
+end
 
-
-
-
-
-
-
-
-
-
-# Code below is from the Item Repository and needs to begin
-# adjusted to be used in this repo
-
-# def create(attributes)
-#   new_item = Item.new(attributes)
-#   @all << new_item
-# end
-#
-# def update(id, new_name)
-#   if find_by_id(id) != nil
-#     (find_by_id(id).name.clear.gsub!("", new_name))
-#   end
-# end
-#
 # def delete(id)
 #   if find_by_id(id) != nil
 #     @all.delete(@all.find do |item|
@@ -102,3 +85,10 @@ end
 #   end
 # end
 # end
+
+
+
+
+
+# Code below is from the Item Repository and needs to begin
+# adjusted to be used in this repo

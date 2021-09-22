@@ -101,10 +101,9 @@ RSpec.describe do
     expect(invoice_items_repository.all.last.id).to eq(21831)
   end
 
-  xit 'can update attributes' do
+  it 'can update attributes' do
     invoice_items_path = './data/invoice_items.csv'
     invoice_items_repository = InvoiceItemRepository.new(invoice_items_path)
-    example_invoice_item = sales_engine.invoice_items.find_by_id(6)
 
     expect(invoice_items_repository.find_by_id(21831)).to eq(nil)
     invoice_items_repository.create({:id => 21831})

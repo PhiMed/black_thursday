@@ -4,7 +4,6 @@ require 'csv'
 require 'BigDecimal'
 
 class InvoiceItemRepository
-
   attr_reader :all
 
   def initialize(invoice_items_path)
@@ -53,48 +52,14 @@ class InvoiceItemRepository
   end
 
   def new_highest_id
-      last = @all.last
-      new_high = last.id.to_i
-      new_high += 1
-      new_high.to_s
-      # require "pry"; binding.pry
+    last = @all.last
+    new_high = last.id.to_i
+    new_high += 1
+    new_high.to_s
   end
 
   def create(attributes)
-    iinew = InvoiceItemRepository.new(attributes)
-    @all << iinew
+    new_iir = InvoiceItemRepository.new(attributes)
+    @all << new_iir
   end
 end
-
-
-
-
-
-
-
-
-
-
-
-# Code below is from the Item Repository and needs to begin
-# adjusted to be used in this repo
-
-# def create(attributes)
-#   new_item = Item.new(attributes)
-#   @all << new_item
-# end
-#
-# def update(id, new_name)
-#   if find_by_id(id) != nil
-#     (find_by_id(id).name.clear.gsub!("", new_name))
-#   end
-# end
-#
-# def delete(id)
-#   if find_by_id(id) != nil
-#     @all.delete(@all.find do |item|
-#       merchant.id == id
-#     end)
-#   end
-# end
-# end

@@ -11,13 +11,13 @@ RSpec.describe do
                           :item_id => 7,
                           :invoice_id => 8,
                           :quantity => 1,
-                          :unit_price => BigDecimal.new(10.99, 4),
+                          :unit_price => BigDecimal(10.99, 4),
                           :created_at => Time.now,
                           :updated_at => Time.now
                           })
     invoice_items_path = './data/invoice_items.csv'
     invoice_items_repository = InvoiceItemRepository.new(invoice_items_path)
-    # require "pry"; binding.pry
+
     expect(invoice_items_repository).to be_an_instance_of(InvoiceItemRepository)
   end
 
@@ -30,7 +30,6 @@ RSpec.describe do
   end
 
   it 'can find by id' do
-
     invoice_items_path = './data/invoice_items.csv'
     invoice_items_repository = InvoiceItemRepository.new(invoice_items_path)
 
@@ -61,54 +60,40 @@ RSpec.describe do
     expect(invoice_items_repository.find_all_by_invoice_id(99898013042)).to eq([])
   end
 
-  it 'can make a new highest id' do
+  it 'can make a new highest_id' do
     invoice_items_path = './data/invoice_items.csv'
     invoice_items_repository = InvoiceItemRepository.new(invoice_items_path)
 
-    expect(invoice_items_repository.new_highest_id).to eq("21831")
+    expect(invoice_items_repository.new_highest_id).to eq "21831"
   end
 
-  it 'can create a new invoice item with given attributes' do
+  it 'can make a new invoice_item' do
     invoice_items_path = './data/invoice_items.csv'
     invoice_items_repository = InvoiceItemRepository.new(invoice_items_path)
 
-    expect(invoice_items_repository.find_by_id(21831)).to eq nil
+    expect(invoice_items_repository.new_highest_id).to eq "21831"
+
     invoice_items_repository.create({
-            id: invoice_items_repository.new_highest_id,
-            item_id: "263519844",
-            invoice_id: "8",
-            quantity: "111",
-            unit_price: "1234",
-            created_at: "2014-02-13",
-            updated_at: "2016-01-06"
-            })
+      id: invoice_items_repository.new_highest_id,
+      item_id: "111111111",
+      invoice_id: "1111",
+      quantity: "1",
+      unit_price: "1111",
+      created_at: "now",
+      updated_at: "just a moment ago"
+      })
 
-    expect(invoice_items_repository.find_by_id(21831)).not_to eq nil
-    expect(invoice_items_repository.new_highest_id).to eq(21832)
-  end
-
-
-  xit 'can create attributes' do
-    invoice_items_path = './data/invoice_items.csv'
-    invoice_items_repository = InvoiceItemRepository.new(invoice_items_path)
-    example_invoice_item = sales_engine.invoice_items.find_by_id(6)
-
-    expect(invoice_items_repository.find_by_id(21831)).to eq(nil)
-    invoice_items_repository.create({:id => 21831})
-
-
+    expect(invoice_items_repository.new_highest_id).to eq "21832"
     expect(invoice_items_repository.find_by_id(21831)).not_to eq(nil)
-    expect(invoice_items_repository.all.last.id).to eq(21831)
   end
 
   xit 'can update attributes' do
     invoice_items_path = './data/invoice_items.csv'
     invoice_items_repository = InvoiceItemRepository.new(invoice_items_path)
-    example_invoice_item = sales_engine.invoice_items.find_by_id(6)
 
     expect(invoice_items_repository.find_by_id(21831)).to eq(nil)
-    invoice_items_repository.create({:id => 21831})
-    invoice_items_repository.update({:id => 21831, :quantity => 10, :unit_price => 1300})
+    # invoice_items_repository.create({:id => 21831})
+    # invoice_items_repository.update({:id => 21831, :quantity => 10, :unit_price => 1300})
 
 
     expect((invoice_items_repository.find_by_id(21831)).quantity).to eq(10)

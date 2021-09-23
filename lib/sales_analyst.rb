@@ -1,19 +1,4 @@
-require './lib/sales_analyst'
-require './lib/merchant_repository'
-require './lib/item_repository'
-require './lib/invoice_repository'
-require './lib/invoice_item_repo'
-require './lib/transaction_repository'
-require './lib/customer_repository'
-require './lib/item'
-require './lib/merchant'
-require './lib/invoice'
-require './lib/invoiceitem'
-require './lib/transaction'
-require './lib/customer'
-require 'csv'
-require 'pry'
-require 'date'
+require_relative './spec_helper'
 
 class SalesAnalyst
   attr_reader :analyst_items,
@@ -36,7 +21,6 @@ class SalesAnalyst
     (@analyst_items.all.count.to_f / @analyst_merchants.all.count.to_f).round(2)
   end
 
-  #helper method
   def store_hashes
     store_hashes = []
     stores_items = []
@@ -48,8 +32,7 @@ class SalesAnalyst
         end
       end
      store_hashes << {
-       :merchant => merchant,
-       :stores_items => stores_items,
+       :merchant => merchant, :stores_items => stores_items,
        :item_count => stores_items.count}
      end
      store_hashes
@@ -68,13 +51,13 @@ class SalesAnalyst
    def merchants_with_high_item_count
      std = average_items_per_merchant_standard_deviation
      aipm = average_items_per_merchant
-     mwhic = []
+     merchants_with_high_items = []
      store_hashes.each do |store|
        if store[:item_count] > aipm + std
-         mwhic << store[:merchant]
+         merchants_with_high_items << store[:merchant]
        end
      end
-     mwhic
+     merchants_with_high_items
    end
 
   def average_item_price_for_merchant(merchant_id)
@@ -108,7 +91,6 @@ class SalesAnalyst
     (esa.sum.to_f / esa.count).round(2)
   end
 
-  #helper method
   def all_item_prices
     all_item_prices = []
     @analyst_items.all.each do |item|
@@ -117,12 +99,10 @@ class SalesAnalyst
     all_item_prices
   end
 
-  #helper method
   def average_item_price
     all_item_prices.sum.to_f / all_item_prices.count
   end
 
-  #helper method
   def standard_deviation_of_all_item_prices
     sum = 0
     aip = average_item_price
@@ -147,7 +127,6 @@ class SalesAnalyst
     (@analyst_invoices.all.count.to_f / @analyst_merchants.all.count.to_f).round(2)
   end
 
-  #helper method
   def invoice_hashes
     invoice_hashes = []
     @analyst_merchants.all.each do |merchant|
@@ -190,16 +169,15 @@ class SalesAnalyst
   def bottom_merchants_by_invoice_count
     std = average_invoices_per_merchant_standard_deviation
     aipm = average_invoices_per_merchant
-    mwlic = []
+    merchants_with_low_items = []
     invoice_hashes.each do |invoice_hash|
       if invoice_hash[:invoice_count] < aipm - (std * 2)
-        mwlic << invoice_hash[:merchant]
+        merchants_with_low_items << invoice_hash[:merchant]
       end
     end
-    mwlic
+    merchants_with_low_items
   end
 
-  #helper method
   def days_by_invoice_hash
     by_days = []
     @analyst_invoices.all.each do |invoice|
@@ -216,13 +194,10 @@ class SalesAnalyst
     h
   end
 
-  #helper method
   def average_invoices_per_day
-    average_invoices_per_day = (
-      days_by_invoice_hash.values.sum / days_by_invoice_hash.values.count.to_f)
+      days_by_invoice_hash.values.sum / days_by_invoice_hash.values.count.to_f
   end
 
-  #helper method
   def average_invoices_per_day_standard_deviation
     sum = 0
     aipd = average_invoices_per_day
@@ -254,7 +229,6 @@ class SalesAnalyst
     all_invoice_statuses
   end
 
-  #helper method
   def invoice_status_hasher
     ais = all_invoice_statuses
     possible_statuses = ["pending", "shipped", "returned"]
@@ -288,7 +262,7 @@ class SalesAnalyst
 
   def invoice_total(invoice_id)
     ita = []
-    @analyst_invoice_items.find_all_by_invoice_id(invoice_id).each do |init|
+    @analyst_invoice_items.find_all_by_invoice_id(invoice_id.to_s).each do |init|
       ita << init
     end
     totals = []

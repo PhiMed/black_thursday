@@ -1,7 +1,3 @@
-require './lib/invoice_item_repo'
-require './lib/invoiceitem'
-require './lib/sales_engine'
-require 'csv'
 
 RSpec.describe do
 
@@ -87,7 +83,7 @@ RSpec.describe do
     expect(invoice_items_repository.find_by_id(21831)).not_to eq(nil)
   end
 
-  xit 'can update attributes' do
+  it 'can update attributes' do
     invoice_items_path = './data/invoice_items.csv'
     invoice_items_repository = InvoiceItemRepository.new(invoice_items_path)
 
@@ -100,14 +96,11 @@ RSpec.describe do
     expect((invoice_items_repository.find_by_id(21831)).unit_price).to eq(1300)
   end
 
-  xit 'can delete an invoice instance' do
+  it 'can delete an invoice instance' do
+
     invoice_items_path = './data/invoice_items.csv'
     invoice_items_repository = InvoiceItemRepository.new(invoice_items_path)
-    example_invoice_item = sales_engine.invoice_items.find_by_id(6)
-
-    invoice_items_repository.create({:id => 21831})
-    expect(invoice_items_repository.all.count).to eq 21831
-    merchant_repository.delete(21831)
     expect(invoice_items_repository.all.count).to eq 21830
+    invoice_items_repository.delete_by_id("21830")
+    expect(invoice_items_repository.all.count).to eq 21829
   end
-end

@@ -1,6 +1,4 @@
-require 'csv'
-require './lib/sales_engine'
-require './lib/invoice'
+require_relative './sales_engine'
 
 class InvoiceRepository
   attr_reader :all
@@ -13,6 +11,12 @@ class InvoiceRepository
       end
       invoice_objects)
   end
+
+  def inspect
+    "#<#{self.class} #{@merchants.size} rows>"
+  end
+
+
 
   def find_by_id(id)
     if (@all.any? do |invoice|

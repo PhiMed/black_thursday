@@ -104,3 +104,4 @@ RSpec.describe do
     invoice_items_repository.delete_by_id("21830")
     expect(invoice_items_repository.all.count).to eq 21829
   end
+end
